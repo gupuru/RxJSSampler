@@ -87,10 +87,9 @@ Rx.Observable
     () => console.log('Completed')
   );
 
-
 // start http://reactivex.io/documentation/operators/start.html
 Rx.Observable
-  .start(s => 'start', Rx.Scheduler.timeout)
+  .start(() => 'start', Rx.Scheduler.timeout)
   .subscribe(
     x => console.log(`Next: ${x}`),
     err => console.log(`Error: ${err}`),
@@ -104,6 +103,69 @@ Rx.Observable
   .timeInterval()
   .pluck('interval')
   .take(3)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//buffer http://reactivex.io/documentation/operators/buffer.html
+Rx.Observable
+  .timer(0, 100)
+  .buffer(() => Rx.Observable.timer(200))
+  .take(3)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//flatmap http://reactivex.io/documentation/operators/flatmap.html
+Rx.Observable
+  .just('apple,orange,peach')
+  .flatMap(x => Rx.Observable.from(x.split(',')))
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//groupby http://reactivex.io/documentation/operators/groupby.html
+Rx.Observable
+  .range(0, 20)
+  .groupBy(x => x % 2 == 0)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//map http://reactivex.io/documentation/operators/map.html
+Rx.Observable
+  .from(['田中', '佐藤', '山田'])
+  .map(x => `${x}さん`)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//scan http://reactivex.io/documentation/operators/scan.html
+Rx.Observable
+  .from(['Hello', 'World', '!!'])
+  .scan((acc, x) => `${acc} ${x}`)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+// window http://reactivex.io/documentation/operators/window.html
+Rx.Observable
+  .timer(1, 50)
+  .window(() => Rx.Observable.timer(100))
+  .take(3)
+  .flatMap(x => x.toArray())
   .subscribe(
     x => console.log(`Next: ${x}`),
     err => console.log(`Error: ${err}`),
