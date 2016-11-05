@@ -1,0 +1,12 @@
+{
+  "name": "rxjsSample",
+  "version": "1.0.0",
+  "description": "rxjs's sample",
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/gupuru/RxJSSampler.git",
+    "type": "git"
+  },
+  "author": "gupuru",
+  "license": "MIT"
+}
