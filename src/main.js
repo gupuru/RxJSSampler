@@ -53,7 +53,7 @@ Rx.Observable
   .timeInterval()
   .take(3)
   .subscribe(
-    x => console.log(`Next: ${x}`),
+    x => console.log(`Next: ${x.value}`),
     err => console.log(`Error: ${err}`),
     () => console.log('Completed')
   );
@@ -67,7 +67,6 @@ Rx.Observable
     () => console.log('Completed')
   );
 
-
 // range http://reactivex.io/documentation/operators/range.html
 Rx.Observable
   .range(0, 6)
@@ -76,7 +75,6 @@ Rx.Observable
     err => console.log(`Error: ${err}`),
     () => console.log('Completed')
   );
-
 
 // repeat http://reactivex.io/documentation/operators/repeat.html
 Rx.Observable
@@ -95,7 +93,6 @@ Rx.Observable
     err => console.log(`Error: ${err}`),
     () => console.log('Completed')
   );
-
 
 //timer http://reactivex.io/documentation/operators/timer.html
 Rx.Observable
@@ -132,8 +129,9 @@ Rx.Observable
 
 //groupby http://reactivex.io/documentation/operators/groupby.html
 Rx.Observable
-  .range(0, 20)
+  .range(0, 10)
   .groupBy(x => x % 2 == 0)
+  .flatMap(group => group.toArray()) 
   .subscribe(
     x => console.log(`Next: ${x}`),
     err => console.log(`Error: ${err}`),
@@ -166,6 +164,119 @@ Rx.Observable
   .window(() => Rx.Observable.timer(100))
   .take(3)
   .flatMap(x => x.toArray())
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+// debounce http://reactivex.io/documentation/operators/debounce.html
+Rx.Observable
+  .interval(1000)
+  .timeInterval()
+  .take(3)
+  .debounce(1000)
+  .subscribe(
+    x => console.log(`Next: ${x.value}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+// distinct http://reactivex.io/documentation/operators/distinct.html
+Rx.Observable
+  .from(['apple', 'orange', 'apple', 'apple', 'りんご'])
+  .distinct()
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+ // elementat http://reactivex.io/documentation/operators/elementat.html
+ Rx.Observable
+  .from(['apple', 'orange', 'りんご'])
+  .elementAt(1)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+// filter http://reactivex.io/documentation/operators/filter.html
+Rx.Observable
+  .range(0, 10)
+  .filter(x => x % 2 == 0)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+// first http://reactivex.io/documentation/operators/first.html
+Rx.Observable
+  .range(0, 10)
+  .first()
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//ignoreelements http://reactivex.io/documentation/operators/ignoreelements.html
+Rx.Observable
+  .range(0, 10)
+  .ignoreElements()
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//last http://reactivex.io/documentation/operators/last.html
+Rx.Observable
+  .range(0, 10)
+  .last()
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//sample　http://reactivex.io/documentation/operators/sample.html
+Rx.Observable
+  .interval(500)
+  .sample(2000)
+  .take(3)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//skip http://reactivex.io/documentation/operators/skip.html
+Rx.Observable
+  .range(0, 10)
+  .skip(8)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//skiplast http://reactivex.io/documentation/operators/skiplast.html
+Rx.Observable
+  .range(0, 10)
+  .skipLast(3)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//takelast　http://reactivex.io/documentation/operators/takelast.html
+Rx.Observable
+  .range(0, 10)
+  .takeLast(2)
   .subscribe(
     x => console.log(`Next: ${x}`),
     err => console.log(`Error: ${err}`),
