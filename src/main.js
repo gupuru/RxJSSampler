@@ -282,3 +282,115 @@ Rx.Observable
     err => console.log(`Error: ${err}`),
     () => console.log('Completed')
   );
+
+//and-then-when http://reactivex.io/documentation/operators/and-then-when.html
+Rx.Observable
+  .when(
+    Rx.Observable.timer(200).and(Rx.Observable.timer(300)).thenDo((x, y) => 'first'),
+    Rx.Observable.timer(400).and(Rx.Observable.timer(500)).thenDo((x, y) => 'second'))
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//combinelatest http://reactivex.io/documentation/operators/combinelatest.html
+var combinelatestSource1 = Rx.Observable
+  .interval(100)
+  .map(x => `First: ${x}`);
+
+var combinelatestSource2 = Rx.Observable
+  .interval(150)
+  .map(x => `Second: ${x}`);
+
+combinelatestSource1
+  .combineLatest(
+    combinelatestSource2,
+    (s1, s2) => `${s1} ${s2}`)
+  .take(5)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//join http://reactivex.io/documentation/operators/join.html
+var joinSource1 = Rx.Observable
+  .interval(100)
+  .map(x => `First: ${x}`);
+
+var joinSource2 = Rx.Observable
+  .interval(100)
+  .map(x => `Second: ${x}`);
+
+joinSource1
+  .join(
+    joinSource2,
+    () => Rx.Observable.timer(0), 
+    () => Rx.Observable.timer(0), 
+    (x, y) => `${x}_${y}`)
+  .take(5)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//merge http://reactivex.io/documentation/operators/merge.html
+const mergeSource1 = Rx.Observable
+  .range(0, 10)
+  .filter(x => x % 2 == 0);
+
+const mergeSource2 = Rx.Observable
+  .range(0, 10)
+  .filter(x => x % 2 == 1);
+
+Rx.Observable
+  .merge(
+    mergeSource1,
+    mergeSource2)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//startwith http://reactivex.io/documentation/operators/startwith.html
+Rx.Observable
+  .from(['ん', 'ご'])
+  .startWith('り')
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//switch http://reactivex.io/documentation/operators/switch.html
+Rx.Observable
+  .from([
+    Rx.Observable.from(['まぐろ', 'あじ', 'ひらめ']),
+    Rx.Observable.from(['りんご', 'みかん', 'おれんじ']),
+    Rx.Observable.from(['いぬ', 'ねこ', 'しか']),
+  ])
+  .switch()
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//zip http://reactivex.io/documentation/operators/zip.html
+const zipSource1 = Rx.Observable.range(0, 3);
+const zipSource2 = Rx.Observable.range(5, 8);
+
+Rx.Observable
+  .zip(
+    zipSource1,
+    zipSource2,
+    (x, y) => `${x} + ${y} = ${x + y}` 
+  )
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
