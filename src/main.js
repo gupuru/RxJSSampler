@@ -1,4 +1,4 @@
-var Rx = require('rx');
+import Rx from 'rx';
 
 // create http://reactivex.io/documentation/operators/create.html
 Rx.Observable
