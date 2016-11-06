@@ -427,3 +427,13 @@ Rx.Observable
     err => console.log(`Error: ${err}`),
     () => console.log('Completed')
   );
+
+//delay http://reactivex.io/documentation/operators/delay.html
+Rx.Observable
+  .range(0, 5)
+  .delay(1000)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
