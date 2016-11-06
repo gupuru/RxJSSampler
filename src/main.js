@@ -394,3 +394,36 @@ Rx.Observable
     err => console.log(`Error: ${err}`),
     () => console.log('Completed')
   );
+
+//catch http://reactivex.io/documentation/operators/catch.html
+Rx.Observable
+  .from([0, 1, 2])
+  .map(x => {
+    if(x > 0) return x;
+    throw new Error('error');
+  })
+  .catch(e => {
+    console.log(`catcht: ${e}`);
+    return Rx.Observable.just(2);
+  })
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
+
+//retry http://reactivex.io/documentation/operators/retry.html
+Rx.Observable
+  .range(0, 5)
+  .map(x => {
+    if(x > 3) {
+      throw new Error('error: x > 3');
+    }
+    return x;
+  })
+  .retry(2)
+  .subscribe(
+    x => console.log(`Next: ${x}`),
+    err => console.log(`Error: ${err}`),
+    () => console.log('Completed')
+  );
